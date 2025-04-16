@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/views/Home.vue'
-// import Normallayout from '@/layout/Normallayout.vue'
+import Normallayout from '@/layout/Normallayout.vue'
 import HomeView from '@/views/HomeView.vue'
 import HitSpecial from '@/views/HitSpecial.vue'
 
