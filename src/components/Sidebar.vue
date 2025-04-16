@@ -1,13 +1,12 @@
 <script setup></script>
 
 <template>
-  <nav class="sticky top-0 z-0">
-    <div class="flex items-center justify-between px-4 py-2 w-full">
-      <div class="w-40"><img src="../assets/logo.png"/></div>
-      <div class="w-[100px] h-[50px] "><img src="../assests/wtsp.png"/></div>
+  <nav class="hidden xl:block h-screen border-r border-black border-opacity-20 p-4 space-y-8 min-w-[250px]">
+    <div class="">
+      <div class="h-[50px] w-[100px] "><img src="../assets/logo.png"/></div>
     </div>
 
-    <div class="flex whitespace-nowrap w-full px-4 space-x-8 overflow-x-auto ">
+    <div class="flex flex-col items-start space-y-8">
       <button>टॉप न्यूज़</button>
       <button>राज्य - शहर</button>
       <button>एंटरटेनमेंट</button>
