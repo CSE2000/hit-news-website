@@ -3,7 +3,7 @@
 <template>
   <main class="flex flex-col space-y-">
     <div class="relative w-full">
-      <img src="../assets/Rectangle 1.png" class="w-full pl-4 object-cover" />
+      <img src="../assets/Rectangle 1.png" class="w-full pl-6 object-cover" />
 
       <!-- Text and button positioned responsively -->
       <div
