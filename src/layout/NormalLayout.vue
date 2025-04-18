@@ -24,39 +24,46 @@ const handleTabChange = (view) => {
       <Sidebar />
     </div>
 
-    <!-- Main content center area -->
-    <div class="flex-1 flex flex-col w-full md:w-[60%] lg:w-[64%] xl:w-[66%]">
-      <!-- Mobile Navbar -->
+    <!-- Center Area (Sticky Navbar + Scrollable Content) -->
+    <div class="flex flex-col w-full md:w-[60%] lg:w-[64%] xl:w-[66%] h-screen overflow-hidden">
+      
+      <!-- Sticky Mobile Navbar -->
       <div class="md:hidden sticky top-0 z-10 w-full bg-white">
         <Navbar />
       </div>
 
-      <!-- HomeView (desktop only) -->
-      <div class="p-2 md:p-4 hidden md:block overflow-x-auto">
-        <HomeView />
-      </div>
+      <!-- Scrollable center content (both mobile and desktop) -->
+      <div class="flex-1 overflow-y-auto">
+        
+        <!-- ✅ Mobile view content -->
+        <div class="p-2 md:p-4 block md:hidden">
+          <Shorts v-if="currentView === 'shorts'" />
+          <RouterView v-else />
+        </div>
 
-      <!-- NewsFeed for all views -->
-      <div class="p-2 md:p-4 hidden md:block">
-        <RouterView />
+        <!-- ✅ Desktop view content -->
+        <div class="hidden md:block">
+          <div class="p-2 md:p-4 overflow-x-auto">
+            <HomeView />
+          </div>
+          <div class="p-2 md:p-4">
+            <RouterView />
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- ✅ Mobile view content -->
-    <div class="p-2 md:p-4 md:hidden mb-16">
-      <Shorts v-if="currentView === 'shorts'" />
-      <RouterView v-else />
+    <!-- Sticky Shorts (desktop only) -->
+    <div
+      class="hidden sm:block sticky top-0 self-start h-screen overflow-y-auto md:w-[28%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
+    >
+      <Shorts />
     </div>
 
     <!-- ✅ Bottom Nav (mobile only) -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white block md:hidden">
       <Button @select="handleTabChange" />
-    </div>
-    <div
-      class="hidden sm:block md:w-[28%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
-    >
-      <!-- Sidebar/desktop Shorts content here (if needed) -->
-      <Shorts />
     </div>
   </main>
 </template>

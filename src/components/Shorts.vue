@@ -23,16 +23,14 @@ onMounted(() => {
 
 
       <!-- Button Row -->
-      <div class="absolute top-0 left-0 right-0 hidden sm:flex justify-between items-start p-5">
+      <!-- <div class="absolute top-0 left-0 right-0 hidden sm:flex justify-between items-start p-5">
 
-        <button
-          class="font-bold bg-[linear-gradient(90deg,_#E6000E_0%,_#F92323_100%)] px-3 py-1 rounded-md text-white"
-        >
+        <button class="font-bold bg-[linear-gradient(90deg,_#E6000E_0%,_#F92323_100%)] px-3 py-1 rounded-md text-white">
           वीडियो
         </button>
 
         <button class="text-white font-bold bg-[#343333] px-3 py-1 rounded-2xl">और देखे</button>
-      </div>
+      </div> -->
 
 
 <!-- Your headline text over the image -->
