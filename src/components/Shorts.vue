@@ -13,13 +13,13 @@ onMounted(() => {
 <template>
   <!-- <main class="relative border-l p-4 h-screen min-w-[350px] hidden xl:block"> -->
   <main
-    class="relative border-l p-4 h-screen hidden md:block w-full md:w-[32%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
+    class="relative border-l p-4 h-screen hidden md:block w-full md:w-[28%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
   >
     <div class="relative w-full rounded-lg overflow-hidden">
       <!-- Background image -->
       <img
         src="../assets/Rectangle4.png"
-        class="w-full h-auto rounded-lg object-cover"
+        class="w-full h-auto rounded-lg object-cover md:max-w-[90%] md:mx-auto"
         alt="Shorts Background"
       />
 
