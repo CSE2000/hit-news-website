@@ -3,7 +3,6 @@
     :to="`/news/${article.id}`"
     class="block bg-white rounded-xl overflow-hidden shadow-lg"
   >
-    <!-- Content Section -->
     <div class="p-2">
       <div class="flex flex-wrap items-baseline gap-1">
         <p class="text-lg font-bold text-[#2EA965] whitespace-nowrap">
@@ -13,7 +12,6 @@
       </div>
     </div>
 
-    <!-- Author & Date -->
     <div class="text-sm text-gray-500 flex items-center justify-between gap-2 p-2">
       <span class="font-medium text-[#4D4D4D]">By {{ article.author }}</span>
       <span class="text-[#4D4D4D]">{{ formatDate(article.date) }}</span>
