@@ -1,13 +1,23 @@
 <script setup></script>
 
 <template>
-  <main class="flex flex-col space-y-4 p-4 h-screen">
-    <div class="space-y-2"><img src="../assets/Rectangle 1.png" class="w-full">
-      <div class="w-full h-[100px]  rounded-md"></div>
-      <p class="font-semibold">
-        The Hit Special: कश्मीर कब्जाने चले पाकिस्तान से छिन जाता लाहौर:आज ही
-        लॉन्च हुआ था ऑपरेशन जिब्राल्टर, जिसने छेड़ी 1965 की जंग
-      </p>
+  <main class="flex flex-col space-y-">
+    <div class="relative w-full">
+      <img src="../assets/Rectangle 1.png" class="w-full object-cover" />
+
+      <!-- Text and button positioned responsively -->
+      <div
+        class="absolute top-4 left-1/2 transform -translate-x-1/3 text-center space-y-1 sm:top-14 sm:right-20 sm:left-0 sm:translate-x-0 sm:text-right"
+      >
+        <p class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
+          क़िस्से सियासत के
+        </p>
+        <button
+          class="font-semibold bg-[linear-gradient(90deg,_#E6000E_0%,_#F92323_100%)] text-white hover:text-white px-3 py-2 ml-4 rounded shadow"
+        >
+          अभी देखे
+        </button>
+      </div>
     </div>
   </main>
 </template>
