@@ -1,14 +1,14 @@
 <template>
   <router-link :to="`/news/${article.id}`" class="block bg-white rounded-lg shadow hover:shadow-md">
     <div class="p-4">
-      <div class="flex justify-between items-center px-1">
-        <h2 class="text-[#464646] mt-1 text-sm sm:text-base md:text-lg lg:text-xl font-semibold">
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2 px-1">
+        <h2 class="text-[#464646] mt-1 text-base sm:text-xs md:text-sm lg:text-xl font-semibold">
           {{ article.title }}
         </h2>
         <img
           src="../assets/images/Frame 18.svg"
           alt="#articleImage"
-          class="w-full sm:w-16 md:w-20"
+          class="w-full sm:w-16 md:w-18"
         />
       </div>
       <div class="flex justify-between py-2">
@@ -32,50 +32,6 @@
     </div>
   </router-link>
 </template>
-
-<!-- <template>
-  <router-link
-    :to="`/news/${article.id}`"
-    class="block bg-white rounded-lg shadow hover:shadow-md transition-all duration-300"
-  >
-    <div class="p-4 flex items-start gap-4">
-
-      <div class="flex-1 space-y-2">
-        <h2 class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-gray-800">
-          {{ article.title }}
-        </h2>
-
-        <div class="flex justify-between items-center flex-wrap gap-y-2">
-          <div class="inline-block px-3 py-1 text-xs sm:text-sm text-[#ADADAD] w-max">
-            {{ article.category }}
-          </div>
-
-          <div class="flex gap-[0.8rem]">
-            <span
-              v-for="icon in icons"
-              :key="icon.name"
-              :class="icon.name"
-              class="text-base sm:text-lg text-[#ADADAD] cursor-pointer"
-            />
-          </div>
-        </div>
-
-        <div
-          class="text-xs sm:text-sm md:text-base text-gray-500 flex justify-between gap-2 flex-wrap"
-        >
-          <span class="font-medium text-gray-700">By {{ article.author }}</span>
-          <span class="text-gray-500">at {{ formatDate(article.date) }}</span>
-        </div>
-      </div>
-
-      <img
-        src="../assets/images/Frame 18.svg"
-        alt="#articleImage"
-        class="w-12 sm:w-14 md:w-16 lg:w-20 object-contain"
-      />
-    </div>
-  </router-link>
-</template> -->
 
 <script setup>
 // Props

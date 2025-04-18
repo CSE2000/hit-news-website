@@ -1,3 +1,4 @@
+
 <script setup>
 const emit = defineEmits(['select-category'])
 
@@ -40,3 +41,4 @@ const getImageUrl = (filename) => new URL(`../assets/images/${filename}`, import
     </div>
   </nav>
 </template>
+

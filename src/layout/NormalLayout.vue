@@ -4,55 +4,59 @@ import Shorts from '@/components/Shorts.vue'
 import Navbar from '@/components/Navbar.vue'
 import HomeView from '@/views/HomeView.vue'
 import { RouterView } from 'vue-router'
+import Button from '@/components/Button.vue'
+import { ref } from 'vue'
+
+const currentView = ref('home')
+
+const handleTabChange = (view) => {
+  if (currentView.value !== view) {
+    console.log('Switching to:', view)
+    currentView.value = view
+  }
+}
 </script>
 
 <template>
-  <main class="flex flex-col md:flex-row min-h-screen ">
-    <!-- Sidebar: Shrinks on tablet -->
+  <main class="flex flex-col md:flex-row min-h-screen">
+    <!-- Sidebar (desktop only) -->
     <div class="hidden md:block sticky top-0 h-screen md:w-[20%] lg:w-[18%] xl:w-[15%]">
       <Sidebar />
     </div>
 
-    <!-- Center: HomeView + NewsFeed -->
+    <!-- Main content center area -->
     <div class="flex-1 flex flex-col w-full md:w-[60%] lg:w-[64%] xl:w-[66%]">
-      <!-- Navbar for mobile -->
+      <!-- Mobile Navbar -->
       <div class="md:hidden sticky top-0 z-10 w-full bg-white">
         <Navbar />
       </div>
 
-      <!-- HomeView (visible on md+) -->
+      <!-- HomeView (desktop only) -->
       <div class="p-2 md:p-4 hidden md:block overflow-x-auto">
         <HomeView />
       </div>
 
-      <!-- NewsFeed area -->
-      <div class="p-2 md:p-4">
+      <!-- NewsFeed for all views -->
+      <div class="p-2 md:p-4 hidden md:block">
         <RouterView />
       </div>
     </div>
 
-    <!-- Shorts: Shrinks at each breakpoint -->
-    <Shorts class="hidden md:block md:w-[24%] lg:w-[20%] xl:w-[18%] 2xl:w-[16%] sticky top-0 h-screen"/>
+    <!-- ✅ Mobile view content -->
+    <div class="p-2 md:p-4 md:hidden mb-16">
+      <Shorts v-if="currentView === 'shorts'" />
+      <RouterView v-else />
+    </div>
+
+    <!-- ✅ Bottom Nav (mobile only) -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white block md:hidden">
+      <Button @select="handleTabChange" />
+    </div>
+    <div
+      class="hidden sm:block md:w-[28%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
+    >
+      <!-- Sidebar/desktop Shorts content here (if needed) -->
+      <Shorts />
+    </div>
   </main>
 </template>
-
-<!-- <template>
-  <main class="flex flex-row min-h-screen">
-    <Sidebar class="hidden md:block" />
-
-    <div class="flex-1 flex flex-col w-full overflow-hidden">
-      <div class="md:hidden sticky top-0 z-10 w-full bg-white">
-        <Navbar />
-      </div>
-
-      <div class="p-2 md:p-4 hidden md:block">
-        <HomeView />
-      </div>
-
-      <div class="p-2 md:p-4">
-        <RouterView />
-      </div>
-    </div>
-    <Shorts class="hidden md:block" />
-  </main>
-</template> -->
