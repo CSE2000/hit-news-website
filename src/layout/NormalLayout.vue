@@ -7,19 +7,21 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <main class="flex flex-col md:flex-row min-h-screen">
+  <main class="flex flex-col md:flex-row min-h-screen ">
     <!-- Sidebar: Shrinks on tablet -->
-    <Sidebar class="hidden md:block md:w-[20%] lg:w-[18%] xl:w-[15%]" />
+    <div class="hidden md:block sticky top-0 h-screen md:w-[20%] lg:w-[18%] xl:w-[15%]">
+      <Sidebar />
+    </div>
 
     <!-- Center: HomeView + NewsFeed -->
-    <div class="flex-1 flex flex-col w-full overflow-hidden md:w-[60%] lg:w-[64%] xl:w-[66%]">
+    <div class="flex-1 flex flex-col w-full md:w-[60%] lg:w-[64%] xl:w-[66%]">
       <!-- Navbar for mobile -->
       <div class="md:hidden sticky top-0 z-10 w-full bg-white">
         <Navbar />
       </div>
 
       <!-- HomeView (visible on md+) -->
-      <div class="p-2 md:p-4 hidden md:block">
+      <div class="p-2 md:p-4 hidden md:block overflow-x-auto">
         <HomeView />
       </div>
 
@@ -30,7 +32,7 @@ import { RouterView } from 'vue-router'
     </div>
 
     <!-- Shorts: Shrinks at each breakpoint -->
-    <Shorts class="hidden md:block md:w-[24%] lg:w-[20%] xl:w-[18%] 2xl:w-[16%]" />
+    <Shorts class="hidden md:block md:w-[24%] lg:w-[20%] xl:w-[18%] 2xl:w-[16%] sticky top-0 h-screen"/>
   </main>
 </template>
 

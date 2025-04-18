@@ -3,7 +3,7 @@
     class="hidden lg:block h-screen border-r border-black border-opacity-20 p-4 space-y-8 min-w-[250px]"
   > -->
   <nav
-    class="hidden md:block h-screen border-r border-black border-opacity-20 p-4 space-y-8 min-w-[200px] md:min-w-[220px] lg:min-w-[250px]"
+    class="hidden md:block h-screen border-r border-black border-opacity-20 p-3 space-y-8 min-w-[200px] md:min-w-[220px] lg:min-w-[250px]"
   >
     <div>
       <div class="h-[50px] w-full m-6 text-center">
