@@ -3,18 +3,22 @@
 <template>
   <nav class="block lg:hidden sticky top-0 z-0">
     <div class="flex items-center justify-between px-4 py-2 w-full">
-      <div class="w-40"><img src="../assets/logo.png" /></div>
+      <div class="w-28 h-20 sm:w-34 sm:h-26 md:w-36 md:h-28 lg:w-40 lg:h-32">
+        <img src="../assets/logo.png" class="w-full h-full object-contain" />
+      </div>
+
       <div
         class="flex items-center gap-2 px-3 py-2 bg-[#F6F6F6] border rounded-full w-fit sm:w-[180px] md:w-[190px] lg:w-[180px]"
       >
         <img
           src="../assets/images/logos_whatsapp-icon.svg"
           alt="WhatsApp"
-          class="w-6 h-6 sm:w-7 sm:h-7"
+          class="w-6 h-6 sm:w-4 sm:h-4"
         />
-        <span class="text-sm sm:text-base font-medium text-[#4D4D4D] whitespace-nowrap">
-          Join Our Group
-        </span>
+        <span class="text-xs sm:text-sm md:text-base font-medium text-[#4D4D4D] whitespace-nowrap">
+  Join Our Group
+</span>
+
       </div>
     </div>
 

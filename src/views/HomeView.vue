@@ -7,7 +7,7 @@
 
       <!-- Text and button positioned responsively -->
       <div
-        class="absolute top-4 left-1/2 transform -translate-x-1/3 text-center space-y-1 sm:top-14 sm:right-20 sm:left-0 sm:translate-x-0 sm:text-right"
+        class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center space-y-1 sm:top-1/2 sm:right-20 sm:left-auto sm:translate-x-0 sm:-translate-y-1/2 sm:text-right"
       >
         <p class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold sm:text-center">
           क़िस्से सियासत के
