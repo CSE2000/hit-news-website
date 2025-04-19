@@ -5,10 +5,10 @@
   >
     <div class="p-2">
       <div class="flex flex-wrap items-baseline gap-1">
-        <p class="text-lg font-bold text-[#2EA965] whitespace-nowrap">
+        <p class="text-lg font-bold text-[#2EA965]">
           {{ article?.headLineOfNew }}
+          <span class="text-lg font-medium text-[#4D4D4D]">{{ article?.title }}</span>
         </p>
-        <span class="text-lg font-medium text-[#4D4D4D]">{{ article?.title }}</span>
       </div>
     </div>
 
