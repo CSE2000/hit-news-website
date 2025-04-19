@@ -7,7 +7,7 @@
 
     <!-- Content section, with top padding to avoid hiding under fixed topbar -->
     <div
-      class="space-y-2 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-4 lg:px-8 xl:px-12 pt-14"
+      class="space-y-2 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-4 lg:px-8 xl:px-12 pt-4 mt-[30px]  "
     >
       <!-- Breadcrumb Nav -->
       <nav class="flex flex-wrap gap-2 p-2">
@@ -15,7 +15,7 @@
           v-for="link in navLinks"
           :key="link.href"
           :href="link.href"
-          class="text-[#ADADAD] text-xs font-medium flex items-center gap-1 hover:text-gray-900 cursor-pointer transition-all duration-300 ease-in-out"
+          class="text-[#ADADAD] text-xs font-medium flex items-center gap-1 hover:text-gray-900 cursor-pointer transition-all duration-300 ease-in-out sm:hidden"
         >
           <i v-if="link.icons" :class="`pi ${link.icons}`"></i>
           {{ link.label }}
