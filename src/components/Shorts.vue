@@ -37,7 +37,7 @@
   </div>
 
   <!-- Footer (Desktop only) -->
-  <div class="p-4 text-xs text-[#ADADAD] text-center hidden md:block">
+  <div class="p-4 text-xs text-[#ADADAD] text-center hidden md:block sm:hidden">
     © 2023 thehit.in | All Rights Reserved <br />
     This website follows the DNP Code of Ethics.
   </div>
