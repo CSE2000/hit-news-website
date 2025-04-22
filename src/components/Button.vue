@@ -15,14 +15,16 @@ const goToShorts = () => {
 
 <template>
   <div
-    class="flex whitespace-nowrap p-2 space-x-4 overflow-x-auto bg-[#FFFFFF] rounded-full lg:hidden justify-center fixed bottom-0 left-10 right-14 z-50"
+    class="bg-[#FFFFFF] border-1 border-[#EAEAEA] border-2 flex p-1 rounded-full lg:hidden fixed bottom-4 z-50 w-max mx-auto left-0 right-0"
   >
-    <button class="flex items-center space-x-2" @click="goToHome">
+    <button class="flex items-center space-x-1 px-2 py-1 text-sm" @click="goToHome">
       <img src="../assets/images/home 1.svg" class="w-4 h-4" />
       <span>होम</span>
     </button>
-    <div class="bg-black bg-opacity-10 p-[0.5px] h-8"></div>
-    <button class="flex items-center space-x-2" @click="goToShorts">
+
+    <div class="bg-black bg-opacity-10 mx-2 p-[0.5px] h-6"></div>
+
+    <button class="flex items-center space-x-1 px-2 py-1 text-sm" @click="goToShorts">
       <img src="../assets/images/reels 1.svg" class="w-4 h-4" />
       <span>शॉर्ट्स</span>
     </button>
