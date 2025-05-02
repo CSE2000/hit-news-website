@@ -8,7 +8,7 @@ let intervalId = null
 
 const fetchBannerImages = async () => {
   try {
-    const response = await axios.get('https://backend-owra.onrender.com/bannerroutes')
+    const response = await axios.get('https://backend-1-ctkv.onrender.com/bannerroutes')
     // console.log('API Response:', response.data)
 
     const images =
