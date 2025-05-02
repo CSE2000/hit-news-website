@@ -1,44 +1,58 @@
-
 <script setup>
-const emit = defineEmits(['select-category'])
+import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useSidebarStore } from '@/stores/SidebarStore'
+import { useNewsStore } from '@/stores/NewsStore'
 
-const categories = [
-  { label: 'टॉप न्यूज़', icon: 'fire.svg' },
-  { label: 'राज्य - शहर', icon: 'rajya-sahar 1.svg' },
-  { label: 'एंटरटेनमेंट', icon: 'entertainment 1.svg' },
-  { label: 'बॉलीवुड', icon: 'bollywood 1.svg' },
-  { label: 'स्पोर्ट्स', icon: 'sports 1.svg' },
-  { label: 'इंटरनेशनल', icon: 'international 1.svg' },
-  { label: 'रेसिपी', icon: 'receipe 1.svg' },
-]
+const router = useRouter()
+const newsStore = useNewsStore()
+const sidebarStore = useSidebarStore()
 
-// Emits selected category
-const handleClick = (label) => {
-  emit('select-category', label)
+onMounted(() => {
+  sidebarStore.fetchCategories()
+  sidebarStore.logoImage()
+})
+
+const goToNewsFeed = () => {
+  sidebarStore.setCategory(null)
+  newsStore.fetchAllArticles()
+  router.push({ name: 'newsfeed' })
 }
 
-// Dynamically resolve the image path
-const getImageUrl = (filename) => new URL(`../assets/images/${filename}`, import.meta.url).href
+const handleClick = (categoryName) => {
+  console.log('Clicked category:', categoryName)
+  sidebarStore.setCategory(categoryName)
+  newsStore.setArticlesByCategory(categoryName)
+}
 </script>
 
 <template>
   <nav
-    class="hidden md:block h-screen border-r border-black border-opacity-20 p-3 space-y-8 min-w-[180px] md:min-w-[210px] lg:min-w-[220px] md:pl-4"
+    class="hidden md:block h-screen border-r border-black border-opacity-20 p-4 space-y-6 min-w-[200px] md:min-w-[210px] lg:min-w-[220px] md:pl-4"
   >
-    <div class="h-[50px] w-full m-6 text-center">
-      <img src="../assets/logo.png" alt="logo" class="h-8" />
+    <!-- Sidebar Logo -->
+    <!-- <router-link :to="{ name: 'newsfeed' }"> -->
+    <div @click="goToNewsFeed" class="w-full text-center cursor-pointer">
+      <img
+        :src="sidebarStore.logo"
+        alt="logo"
+        class="h-[60px] mx-auto object-contain mb-4 p-4 mt-4"
+      />
     </div>
-    <div class="flex flex-col items-start space-y-6">
+
+    <!-- Sidebar Categories -->
+    <div
+      class="flex flex-col items-start space-y-4 overflow-y-auto max-h-[calc(100vh-120px)] pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+    >
       <button
-        v-for="category in categories"
-        :key="category.label"
-        @click="handleClick(category.label)"
-        class="flex items-center space-x-2 text-sm sm:text-base hover:bg-gray-200 rounded-md p-2 w-full"
+        v-for="category in sidebarStore.categories"
+        :key="category._id"
+        @click="handleClick(category.name)"
+        class="flex items-center space-x-2 text-[15px] hover:bg-gray-200 rounded-md px-2 py-2 w-full text-left"
       >
-        <img :src="getImageUrl(category.icon)" alt="category icon" class="w-5 h-5" />
-        <span>{{ category.label }}</span>
+        <img :src="category.image" alt="category image" class="w-5 h-5 shrink-0" />
+        <span class="truncate">{{ category.name }}</span>
       </button>
     </div>
   </nav>
 </template>
-

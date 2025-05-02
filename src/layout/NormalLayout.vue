@@ -1,50 +1,65 @@
 <script setup>
 import Sidebar from '@/components/Sidebar.vue'
-import Shorts from '@/components/Shorts.vue'
-// import Navbar from '@/components/Navbar.vue'
+// import Shorts from '@/components/Shorts.vue'
 import HomeView from '@/views/HomeView.vue'
 import { RouterView } from 'vue-router'
 </script>
 
 <template>
   <main class="flex flex-col lg:flex-row min-h-screen w-full">
-    <!-- Sidebar (desktop only) -->
+    <!-- Left Sidebar -->
     <div class="hidden lg:block sticky top-0 h-screen md:w-[20%] lg:w-[18%] xl:w-[15%]">
       <Sidebar />
     </div>
 
-    <!-- Center Area (Sticky Navbar + Scrollable Content) -->
+    <!-- Main Content Area -->
     <div class="flex flex-col w-full lg:w-[64%] xl:w-[66%] h-screen overflow-hidden">
-      <!-- Sticky Mobile Navbar -->
-      <!-- <div class="md:hidden sticky top-0 z-10 w-full bg-white">
-        <Navbar />
-      </div> -->
-
-      <!-- Scrollable center content (both mobile and desktop) -->
-      <div class="flex-1 overflow-y-auto">
-        <!-- ✅ Mobile view content -->
-        <div class="p-2 md:p-4 block lg:hidden">
-          <Shorts v-if="currentView === 'shorts'" />
-          <RouterView v-else />
+      <!-- Scrollable Content -->
+      <div
+        class="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+      >
+        <!-- HomeView only visible on lg+ screens, scrolls with content -->
+        <div class="hidden lg:block p-2 md:p-4 pl-only-1024">
+          <HomeView />
         </div>
 
-        <!-- ✅ Desktop view content -->
-        <div class="hidden lg:block">
-          <div class="p-2 md:p-4 overflow-x-auto">
-            <HomeView />
-          </div>
-          <div class="p-1">
-            <RouterView />
-          </div>
+        <!-- RouterView shared for all screen sizes -->
+        <div class="p-2 md:p-4 pl-only-1024">
+          <RouterView :key="$route.fullPath" />
         </div>
       </div>
     </div>
 
-    <!-- Sticky Shorts (desktop only) -->
+    <!-- Right Side (for future Shorts) -->
     <div
-      class="hidden lg:block sticky top-0 self-start h-screen overflow-y-auto md:w-[28%] lg:w-[26%] xl:w-[24%] 2xl:w-[22%] min-w-[280px] md:min-w-[300px] lg:min-w-[350px]"
+      class="hidden lg:block sticky top-0 self-start h-screen w-[280px] xl:w-[260px] 2xl:w-[280px] p-for-shorts"
     >
-      <Shorts />
+      <!-- <Shorts /> -->
     </div>
   </main>
 </template>
+
+.
+<style scoped>
+@media (min-width: 1024px) and (max-width: 1024px) {
+  .pl-only-1024 {
+    /* border: 1px solid red; */
+    margin-left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1024px) {
+  .pl-for-1024 {
+    /* border: 1px solid red; */
+    padding: 0 0 1rem 0;
+    margin-left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1024px) {
+  .p-for-shorts {
+    /* border: 1px solid red; */
+    padding: 2px 4px;
+  }
+}
+</style>

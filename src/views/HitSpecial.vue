@@ -1,115 +1,110 @@
+<script setup>
+import { useRoute } from 'vue-router'
+import { onMounted, computed, ref } from 'vue'
+import DetailTopbar from '@/components/DetailTopbar.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import { useNewsStore } from '@/stores/NewsStore'
+
+const route = useRoute()
+const newsStore = useNewsStore()
+const isLoading = ref(true)
+
+const article = computed(() => newsStore.getArticleById(route.params.id))
+
+const icons = [{ name: 'pi pi-whatsapp' }, { name: 'pi pi-facebook' }, { name: 'pi pi-link' }]
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  })
+  const formattedTime = date.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZoneName: 'short',
+  })
+  return `${formattedDate}, ${formattedTime}`
+}
+
+onMounted(() => {
+  if (!article.value) {
+    console.log(article.value)
+    newsStore.fetchAllArticles().finally(() => {
+      isLoading.value = false
+    })
+  } else {
+    isLoading.value = false
+  }
+})
+// onMounted(() => {
+//   if (!article.value) {
+//     console.log(article.value)
+//     newsStore.fetchAllArticles()
+//   }
+// })
+
+function stripTags(html) {
+  if (!html) return ''
+  return html.replace(/<\/?[^>]+(>|$)/g, '')
+}
+</script>
+
 <template>
   <div class="relative h-screen">
-    <!-- Fixed DetailTopbar (visible only on mobile) -->
     <div class="fixed top-0 left-0 right-0 z-50 block lg:hidden bg-white shadow-md">
       <DetailTopbar />
     </div>
+    <div v-if="isLoading" class="text-center py-20">
+      <span>Loading...</span>
+    </div>
 
-    <!-- Content section, with top padding to avoid hiding under fixed topbar -->
     <div
-      class="space-y-2 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-4 lg:px-8 xl:px-12 pt-4 mt-[30px]  "
+      v-else
+      class="space-y-4 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-6 lg:px-4 xl:px-4 pt-20 lg:pt-4"
     >
-      <!-- Breadcrumb Nav -->
-      <nav class="flex flex-wrap gap-2 p-2">
-        <a
-          v-for="link in navLinks"
-          :key="link.href"
-          :href="link.href"
-          class="text-[#ADADAD] text-xs font-medium flex items-center gap-1 hover:text-gray-900 cursor-pointer transition-all duration-300 ease-in-out sm:hidden"
-        >
-          <i v-if="link.icons" :class="`pi ${link.icons}`"></i>
-          {{ link.label }}
-        </a>
-      </nav>
-
-      <!-- Headline and Title -->
-      <div class="p-2">
-        <div class="flex flex-wrap items-baseline gap-1">
-          <p class="text-lg font-bold text-[#2EA965] whitespace-nowrap">
-            {{ article?.headLineOfNew }}
-          </p>
-          <span class="text-lg font-medium text-[#4D4D4D]">{{ article?.title }}</span>
-        </div>
+      <div class="hidden lg:block">
+        <Breadcrumb />
       </div>
 
-      <!-- Category & Share Icons -->
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-        <p class="text-xl font-semibold text-[#ADADAD]">{{ article?.category }}</p>
-        <div class="flex gap-4 flex-wrap text-white">
-          <div
+      <div class="space-y-2">
+        <p class="gap-1 text-lg font-bold text-[#2EA965] md:text-base">
+          {{ article?.title }} :
+          <span class="text-base font-medium text-[#4D4D4D] md:text-sm md:font-medium">
+            {{ stripTags(article.content) }}
+          </span>
+        </p>
+      </div>
+
+      <div
+        class="flex justify-between text-sm text-[#ADADAD] font-semibold border-b border-dotted pb-2"
+      >
+        <span>{{ formatDate(article?.createdAt) }}</span>
+        <span>By {{ article?.author }}</span>
+      </div>
+
+      <div>
+        <img
+          :src="article?.image || '/fallback.jpg'"
+          alt="News Image"
+          class="w-full max-h-[350px] object-cover rounded-md shadow-sm"
+        />
+      </div>
+
+      <div class="flex justify-between items-center text-sm text-[#ADADAD] pt-2">
+        <span class="font-medium">{{ article?.category }}</span>
+        <div class="flex gap-4">
+          <span
             v-for="(icon, index) in icons"
             :key="index"
-            class="flex items-center text-[#ADADAD] hover:text-gray-900 cursor-pointer"
-          >
-            <i :class="icon.name" class="text-lg"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dotted Divider -->
-      <div class="border-b border-dotted border-[#ADADAD]"></div>
-
-      <!-- Date and Author -->
-      <div class="flex items-center justify-between text-sm text-[#ADADAD] font-semibold">
-        <p>{{ formatDate(article?.date) }}</p>
-        <p>By {{ article?.author }}</p>
-      </div>
-
-      <!-- Article Content -->
-      <div class="space-y-6">
-        <img
-          src="../assets/images/Rectangle 2.svg"
-          alt="Main News Image"
-          class="w-full h-auto object-contain"
-        />
-
-        <p class="text-lg text-[#A3A3A3] leading-relaxed">{{ article?.mainArticle }}</p>
-
-        <div class="flex flex-col md:flex-row gap-6 items-start min-w-0 w-full">
-          <img
-            src="../assets/images/Rectangle 3.svg"
-            alt="Secondary Image"
-            class="w-full md:w-1/3 h-auto object-contain"
+            :class="['text-xl', icon.name]"
+            class="hover:text-gray-900 cursor-pointer"
           />
-          <p class="text-lg text-[#A3A3A3] leading-relaxed w-full">{{ article?.sideArticle }}</p>
-        </div>
-
-        <div>
-          <p class="text-lg text-[#A3A3A3] leading-relaxed">{{ article?.finalArticle }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { useRoute } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import newsList from '@/data/news.json'
-import DetailTopbar from '@/components/DetailTopbar.vue'
-
-const route = useRoute()
-const article = ref(null)
-
-onMounted(() => {
-  const id = parseInt(route.params.id)
-  article.value = newsList.find((item) => item.id === id)
-})
-
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'News', icons: 'pi-angle-right', href: '#news' },
-  { label: 'Details in News', icons: 'pi-angle-right', href: '#Newsindetail' },
-]
-
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr)
-  return date.toLocaleTimeString('en-IN', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
-
-const icons = [{ name: 'pi pi-whatsapp' }, { name: 'pi pi-facebook' }, { name: 'pi pi-link' }]
-</script>

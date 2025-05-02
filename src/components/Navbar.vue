@@ -1,54 +1,53 @@
 <script setup>
-const categories = [
-  { icon: new URL('@/assets/images/fire.svg', import.meta.url).href, label: 'टॉप न्यूज़' },
-  {
-    icon: new URL('@/assets/images/rajya-sahar 1.svg', import.meta.url).href,
-    label: 'राज्य - शहर',
-  },
-  {
-    icon: new URL('@/assets/images/entertainment 1.svg', import.meta.url).href,
-    label: 'एंटरटेनमेंट',
-  },
-  { icon: new URL('@/assets/images/bollywood 1.svg', import.meta.url).href, label: 'बॉलीवुड' },
-  { icon: new URL('@/assets/images/sports 1.svg', import.meta.url).href, label: 'स्पोर्ट्स' },
-  {
-    icon: new URL('@/assets/images/international 1.svg', import.meta.url).href,
-    label: 'इंटरनेशनल',
-  },
-  { icon: new URL('@/assets/images/receipe 1.svg', import.meta.url).href, label: 'रेसिपी' },
-]
+import { useSidebarStore } from '@/stores/SidebarStore'
+import { onMounted } from 'vue'
 
-const logo = new URL('@/assets/logo.png', import.meta.url).href
-const whatsappIcon = new URL('@/assets/images/logos_whatsapp-icon.svg', import.meta.url).href
+import { useNewsStore } from '@/stores/NewsStore'
+
+const newsStore = useNewsStore()
+const sidebarStore = useSidebarStore()
+
+onMounted(() => {
+  sidebarStore.fetchCategories()
+  sidebarStore.logoImage()
+})
+
+const handleClick = (categoryName) => {
+  console.log('Clicked category:', categoryName)
+  sidebarStore.setCategory(categoryName)
+  newsStore.setArticlesByCategory(categoryName)
+}
 </script>
 
 <template>
   <nav class="block lg:hidden sticky top-0 z-20 bg-white shadow-sm">
-    <!-- Top Logo + WhatsApp Banner -->
     <div class="flex items-center justify-between px-4 w-full">
-      <div class="w-28 h-20 sm:w-34 sm:h-26 md:w-36 md:h-28 lg:w-40 lg:h-32">
-        <img :src="logo" class="w-full h-full object-contain" />
+      <div class="w-28 h-20 sm:w-28 sm:h-26 md:w-32 md:h-28 lg:w-40 lg:h-32">
+        <img :src="sidebarStore.logo" alt="logo" class="w-full h-full object-contain" />
       </div>
 
       <div
         class="flex items-center gap-2 px-3 py-2 bg-[#F6F6F6] border rounded-full w-fit sm:w-[180px] md:w-[190px] lg:w-[180px]"
       >
-        <img :src="whatsappIcon" alt="WhatsApp" class="w-6 h-6 sm:w-4 sm:h-4" />
+        <img :src="sidebarStore.whatsappIcon" alt="WhatsApp" class="w-6 h-6 sm:w-4 sm:h-4" />
         <span class="text-xs sm:text-sm md:text-base font-medium text-[#4D4D4D] whitespace-nowrap">
-          Join Our Group
+          {{ sidebarStore.whatsappText }}
         </span>
       </div>
     </div>
 
     <!-- Category Buttons Scroll -->
-    <div class="flex whitespace-nowrap w-full px-4 space-x-8 overflow-x-auto pb-2">
+    <div class="flex whitespace-nowrap w-full px-4 space-x-4 overflow-x-auto pb-2">
       <button
-        v-for="(cat, index) in categories"
-        :key="index"
-        class="flex items-center space-x-2 text-sm text-gray-700 hover:text-blue-600"
+        v-for="category in sidebarStore.categories"
+        :key="category._id"
+        @click="handleClick(category.name)"
+        class="flex-shrink-0 flex items-center gap-2 px-2 py-2 text-sm sm:text-base rounded-md hover:bg-gray-200 transition"
       >
-        <img :src="cat.icon" class="w-5 h-5" />
-        <span>{{ cat.label }}</span>
+        <div class="flex items-center gap-2">
+          <img :src="category.image" alt="category image" class="w-5 h-5" />
+          <span class="whitespace-nowrap">{{ category.name }}</span>
+        </div>
       </button>
     </div>
   </nav>
