@@ -10,7 +10,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('https://backend-owra.onrender.com/categoryroutes')
+      const response = await axios.get('https://backend-1-ctkv.onrender.com/categoryroutes')
       categories.value = response.data.data
       // console.log('Fetched categories:', categories.value)
     } catch (error) {
@@ -20,7 +20,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 
   const logoImage = async () => {
     try {
-      const response = await axios.get('https://backend-owra.onrender.com/logoroutes')
+      const response = await axios.get('https://backend-1-ctkv.onrender.com/logoroutes')
       // console.log(response)
       logo.value = response.data.logo[0].image
     } catch (error) {

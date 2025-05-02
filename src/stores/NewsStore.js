@@ -18,7 +18,7 @@ export const useNewsStore = defineStore('news', () => {
     isLoading.value = true
     error.value = null
     try {
-      const res = await axios.get('https://backend-owra.onrender.com/newsroutes')
+      const res = await axios.get('https://backend-1-ctkv.onrender.com/newsroutes')
       // console.log(res.data)
       articles.value = res.data.message.map((article) => ({
         id: article._id,
