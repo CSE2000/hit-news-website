@@ -18,7 +18,7 @@ export const useNewsStore = defineStore('news', () => {
     isLoading.value = true
     error.value = null
     try {
-      const res = await axios.get('https://backend-1-ctkv.onrender.com/newsroutes')
+      const res = await axios.get('http://192.168.1.5:5000/newsroutes')
       // console.log(res.data)
       articles.value = res.data.message.map((article) => ({
         id: article._id,
@@ -27,7 +27,7 @@ export const useNewsStore = defineStore('news', () => {
         image: article.image || '',
         category: article.category?.name || '',
         createdAt: article.createdAt,
-        author: article.author || 'Unknown Author',
+        author: article.author?.username || 'Unknown Author',
       }))
       selectedArticles.value = articles.value
     } catch (err) {
