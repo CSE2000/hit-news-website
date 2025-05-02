@@ -21,6 +21,7 @@ const goToNewsFeed = () => {
 
 const handleClick = (categoryName) => {
   console.log('Clicked category:', categoryName)
+  router.push({ name: 'newsfeed' })
   sidebarStore.setCategory(categoryName)
   newsStore.setArticlesByCategory(categoryName)
 }
@@ -36,7 +37,7 @@ const handleClick = (categoryName) => {
       <img
         :src="sidebarStore.logo"
         alt="logo"
-        class="h-[60px] mx-auto object-contain mb-4 p-4 mt-4"
+        class="max-h-[60px] w-auto mx-auto object-contain mt-4 mb-4"
       />
     </div>
 

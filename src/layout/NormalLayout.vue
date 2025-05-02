@@ -19,12 +19,12 @@ import { RouterView } from 'vue-router'
         class="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
       >
         <!-- HomeView only visible on lg+ screens, scrolls with content -->
-        <div class="hidden lg:block p-2 md:p-4 pl-only-1024">
+        <div class="hidden lg:block p-2 md:p-4 pl-only-1024 max-w-5xl mx-auto w-full">
           <HomeView />
         </div>
 
         <!-- RouterView shared for all screen sizes -->
-        <div class="p-2 md:p-4 pl-only-1024">
+        <div class="p-2 md:p-4 pl-only-1024 max-w-5xl mx-auto w-full">
           <RouterView :key="$route.fullPath" />
         </div>
       </div>

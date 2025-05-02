@@ -7,7 +7,7 @@ const props = defineProps({
 
 const FeaturedNewsStore = useFeaturedNewsStore()
 
-const stripAndLimit = (htmlContent, wordLimit = 42) => {
+const stripAndLimit = (htmlContent, wordLimit = 45) => {
   const stripped = htmlContent.replace(/<\/?[^>]+(>|$)/g, '')
   const words = stripped.split(/\s+/).slice(0, wordLimit).join(' ')
   return words + ' '
@@ -45,12 +45,20 @@ const stripAndLimit = (htmlContent, wordLimit = 42) => {
     <div class="flex justify-between items-center text-sm text-[#ADADAD] pt-4">
       <span class="font-medium">{{ article?.category }}</span>
       <div class="flex gap-3">
-        <span
+        <!-- <span
           v-for="(icon, index) in FeaturedNewsStore.icons"
           :key="index"
           :class="['text-xl', icon.name]"
           class="hover:text-gray-900 cursor-pointer"
-        />
+        /> -->
+        <a
+          v-for="(icon, index) in FeaturedNewsStore.icons"
+          :key="index"
+          :href="icon.link"
+          class="text-xl hover:text-gray-900 cursor-pointer"
+        >
+          <span :class="icon.name" />
+        </a>
       </div>
     </div>
   </router-link>
