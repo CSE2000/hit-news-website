@@ -3,7 +3,6 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// Methods to navigate between home and shorts
 const goToHome = () => {
   router.push({ name: 'newsfeed' })
 }

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import newsList from '@/data/news.json'
 
 export const useHitSpecialStore = defineStore('hitSpecial', () => {
   const article = ref(null)
@@ -12,16 +11,27 @@ export const useHitSpecialStore = defineStore('hitSpecial', () => {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleTimeString('en-IN', {
-      hour: 'numeric',
+
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    })
+
+    const formattedTime = date.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
       minute: '2-digit',
       hour12: true,
+      timeZoneName: 'short',
     })
+
+    return `${formattedDate}, ${formattedTime}`
   }
 
-  const headLineImage = new URL('../assets/images/Rectangle 2.svg', import.meta.url).href
 
-  const headLineSubImage = new URL('../assets/images/Rectangle 3.svg', import.meta.url).href
+  // const headLineImage = new URL('../assets/images/Rectangle 2.svg', import.meta.url).href
+
+  // const headLineSubImage = new URL('../assets/images/Rectangle 3.svg', import.meta.url).href
 
   return {
     article,

@@ -1,39 +1,63 @@
 <script setup>
 import { defineProps } from 'vue'
 import { useNewsCardStore } from '@/stores/NewsCardStore'
-import { useSidebarStore } from '@/stores/SidebarStore'
-
-const sidebarStore = useSidebarStore()
 
 const props = defineProps({
   article: Object,
 })
 
+const stripAndLimit = (htmlContent, wordLimit = 25) => {
+  const stripped = htmlContent.replace(/<\/?[^>]+(>|$)/g, '')
+  const words = stripped.split(/\s+/).slice(0, wordLimit).join(' ')
+  return words + ' '
+}
+
+// const truncateContent = (htmlContent) => {
+//   const tempDiv = document.createElement('div')
+//   tempDiv.innerHTML = htmlContent
+//   const plainText = tempDiv.textContent || tempDiv.innerText || ''
+//   return plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText
+// }
+
 const newsCardStore = useNewsCardStore()
 </script>
 
 <template>
-  <router-link :to="`/news/${article.id}`" class="block bg-white rounded-lg shadow hover:shadow-md">
-    <div class="p-4 relative">
-      <div class="absolute top-4 right-4">
-        <img
-          :src="newsCardStore.frameImage"
-          alt="Article Image"
-          class="sm:w-18 md:w-18 lg:w-24 h-auto object-contain"
-        />
-      </div>
-      <div class="pr-28">
-        <h2 class="text-[#464646] mt-1 text-base sm:text-xs md:text-sm lg:text-xl font-semibold">
-          {{ article.title }}
-        </h2>
-      </div>
+  <router-link
+    :to="`/${article.id}`"
+    class="block bg-white p-4 hover:bg-gray-50 transition rounded-lg"
+  >
+    <div class="flex flex-col gap-3">
+      <!-- Row 1: Title + Content | Image -->
+      <div class="flex justify-between items-start gap-4">
+        <!-- Left side: Title + Content -->
+        <p class="gap-1 text-lg font-bold text-[#F92323] md:text-base">
+          {{ article?.title }}
+          <span class="text-base font-medium text-[#4D4D4D] md:text-sm md:font-medium">
+            {{ stripAndLimit(article.content) }}
+          </span>
 
-      <div class="flex justify-between py-2">
-        <div class="inline-block px-1 py-1 text-sm text-[#ADADAD] mt-0 md:mt-[4%]">
-          {{ sidebarStore.selectedCategory }}
+          <!-- Right side: Image -->
+        </p>
+
+        <div class="w-20 h-20 flex-shrink-0 rounded-md overflow-hidden">
+          <img
+            :src="article.image || '/fallback.jpg'"
+            alt="Article Image"
+            class="w-full h-full object-cover rounded-md"
+          />
         </div>
+      </div>
 
-        <div class="flex gap-[0.6rem] mt-0 md:mt-[5%] px-1">
+      <!-- Row 2: Category | Icons -->
+      <div class="flex justify-between items-center">
+        <!-- Category -->
+        <span class="text-sm text-[#ADADAD] font-medium">
+          {{ article.category }}
+        </span>
+
+        <!-- Icons -->
+        <div class="flex gap-2">
           <span
             v-for="icon in newsCardStore.icons"
             :key="icon.name"
@@ -43,11 +67,15 @@ const newsCardStore = useNewsCardStore()
         </div>
       </div>
 
-      <div class="text-sm text-gray-500 flex items-center justify-between gap-2 px-1">
-        <span class="font-medium text-gray-700">By {{ article.author }}</span>
-        <span class="text-gray-500"
-          >at {{ article?.date ? newsCardStore.formatDate(article.date) : '' }}</span
-        >
+      <!-- Row 3: Author | Time -->
+      <div class="flex justify-between items-center text-sm text-gray-500">
+        <!-- Author -->
+        <span class="font-medium text-gray-700"> By {{ article.author }} </span>
+
+        <!-- Time -->
+        <span>
+          {{ article?.createdAt ? newsCardStore.formatDate(article.createdAt) : '' }}
+        </span>
       </div>
     </div>
   </router-link>

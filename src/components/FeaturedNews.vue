@@ -1,54 +1,55 @@
 <script setup>
 import { defineProps } from 'vue'
 import { useFeaturedNewsStore } from '@/stores/FeaturedNewsStore'
-import { useSidebarStore } from '@/stores/SidebarStore'
-
-const sidebarStore = useSidebarStore()
-
 const props = defineProps({
   article: Object,
 })
 
 const FeaturedNewsStore = useFeaturedNewsStore()
+
+const stripAndLimit = (htmlContent, wordLimit = 42) => {
+  const stripped = htmlContent.replace(/<\/?[^>]+(>|$)/g, '')
+  const words = stripped.split(/\s+/).slice(0, wordLimit).join(' ')
+  return words + ' '
+}
 </script>
 
 <template>
-  <router-link
-    :to="`/news/${article.id}`"
-    class="block bg-white rounded-xl overflow-hidden shadow-lg"
-  >
-    <div class="p-2">
+  <router-link :to="`/${article.id}`" class="block bg-white">
+    <div class="pt-4">
       <div class="flex flex-wrap items-baseline gap-1">
-        <p class="text-lg font-bold text-[#2EA965] py-0 md:py-6 lg:py-2">
-          {{ article?.headLineOfNew }}
-          <span class="text-lg font-medium text-[#4D4D4D]">{{ article?.title }}</span>
+        <p class="gap-1 text-lg font-bold text-[#2EA965] md:text-base">
+          {{ article?.title }} :
+          <span class="text-base font-medium text-[#4D4D4D] md:text-sm md:font-medium">
+            {{ stripAndLimit(article.content) }}
+          </span>
         </p>
       </div>
     </div>
 
     <div class="text-sm text-gray-500 flex items-center justify-between gap-2 p-2">
       <span class="font-medium text-[#4D4D4D]">By {{ article.author }}</span>
-      <span class="text-[#4D4D4D]">{{
-        article?.date ? FeaturedNewsStore.formatDate(article.date) : ''
-      }}</span>
+      <span class="text-[#4D4D4D]">
+        at {{ article?.createdAt ? FeaturedNewsStore.formatDate(article.createdAt) : '' }}</span
+      >
     </div>
 
-    <!-- Article images -->
-    <img :src="FeaturedNewsStore.topImage" alt="Main News Image" class="w-full h-auto" />
+    <div class="w-full h-64 md:h-72 lg:h-80 overflow-hidden rounded-md">
+      <img
+        :src="article.image || '/fallback.jpg'"
+        alt="Article Image"
+        class="w-full h-full object-cover"
+      />
+    </div>
 
-    <!-- Category -->
-    <div class="flex justify-between p-2">
-      <div class="inline-block px-3 py-1 text-sm text-[#ADADAD] w-max">
-        {{ sidebarStore.selectedCategory }}
-      </div>
-
-      <!-- Share Icons -->
-      <div class="flex gap-4 mt-2 mr-2">
+    <div class="flex justify-between items-center text-sm text-[#ADADAD] pt-4">
+      <span class="font-medium">{{ article?.category }}</span>
+      <div class="flex gap-3">
         <span
-          v-for="icon in FeaturedNewsStore.icons"
-          :key="icon.name"
-          :class="icon.name"
-          class="text-xl text-[#ADADAD] hover:text-gray-900 cursor-pointer"
+          v-for="(icon, index) in FeaturedNewsStore.icons"
+          :key="index"
+          :class="['text-xl', icon.name]"
+          class="hover:text-gray-900 cursor-pointer"
         />
       </div>
     </div>

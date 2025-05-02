@@ -1,98 +1,110 @@
+<script setup>
+import { useRoute } from 'vue-router'
+import { onMounted, computed, ref } from 'vue'
+import DetailTopbar from '@/components/DetailTopbar.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import { useNewsStore } from '@/stores/NewsStore'
+
+const route = useRoute()
+const newsStore = useNewsStore()
+const isLoading = ref(true)
+
+const article = computed(() => newsStore.getArticleById(route.params.id))
+
+const icons = [{ name: 'pi pi-whatsapp' }, { name: 'pi pi-facebook' }, { name: 'pi pi-link' }]
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  })
+  const formattedTime = date.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZoneName: 'short',
+  })
+  return `${formattedDate}, ${formattedTime}`
+}
+
+onMounted(() => {
+  if (!article.value) {
+    console.log(article.value)
+    newsStore.fetchAllArticles().finally(() => {
+      isLoading.value = false
+    })
+  } else {
+    isLoading.value = false
+  }
+})
+// onMounted(() => {
+//   if (!article.value) {
+//     console.log(article.value)
+//     newsStore.fetchAllArticles()
+//   }
+// })
+
+function stripTags(html) {
+  if (!html) return ''
+  return html.replace(/<\/?[^>]+(>|$)/g, '')
+}
+</script>
+
 <template>
   <div class="relative h-screen">
     <div class="fixed top-0 left-0 right-0 z-50 block lg:hidden bg-white shadow-md">
       <DetailTopbar />
     </div>
+    <div v-if="isLoading" class="text-center py-20">
+      <span>Loading...</span>
+    </div>
 
     <div
-      class="space-y-2 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-4 lg:px-8 xl:px-12 pt-8 lg:pt-0"
+      v-else
+      class="space-y-4 mx-auto max-w-screen-xl w-full overflow-x-hidden px-2 md:px-6 lg:px-4 xl:px-4 pt-20 lg:pt-4"
     >
-      <div class="p-2">
-        <div class="hidden lg:block">
-          <Breadcrumb />
-        </div>
-        <div class="flex flex-wrap items-baseline gap-1">
-          <p class="text-lg font-bold text-[#2EA965]">
-            {{ hitSpecialStore.article?.headLineOfNew
-            }}<span class="text-lg/6 font-medium text-[#4D4D4D]">{{
-              hitSpecialStore.article?.title
-            }}</span>
-          </p>
-        </div>
+      <div class="hidden lg:block">
+        <Breadcrumb />
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-        <p class="text-xl font-semibold text-[#ADADAD]">{{ sidebarStore.selectedCategory }}</p>
-        <div class="flex gap-4 flex-wrap text-white">
-          <div
-            v-for="(icon, index) in hitSpecialStore.icons"
-            :key="index"
-            class="flex items-center text-[#ADADAD] hover:text-gray-900 cursor-pointer"
-          >
-            <i :class="['text-lg', icon.name]"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="border-b border-dotted border-[#ADADAD]"></div>
-
-      <div class="flex items-center justify-between text-sm text-[#ADADAD] font-semibold">
-        <p>
-          {{
-            hitSpecialStore.article?.date
-              ? hitSpecialStore.formatDate(hitSpecialStore.article.date)
-              : ''
-          }}
+      <div class="space-y-2">
+        <p class="gap-1 text-lg font-bold text-[#2EA965] md:text-base">
+          {{ article?.title }} :
+          <span class="text-base font-medium text-[#4D4D4D] md:text-sm md:font-medium">
+            {{ stripTags(article.content) }}
+          </span>
         </p>
-
-        <p>By {{ hitSpecialStore.article?.author }}</p>
       </div>
 
-      <div class="space-y-8">
+      <div
+        class="flex justify-between text-sm text-[#ADADAD] font-semibold border-b border-dotted pb-2"
+      >
+        <span>{{ formatDate(article?.createdAt) }}</span>
+        <span>By {{ article?.author }}</span>
+      </div>
+
+      <div>
         <img
-          :src="hitSpecialStore.headLineImage"
-          alt="Main News Image"
-          class="w-full h-auto object-contain"
+          :src="article?.image || '/fallback.jpg'"
+          alt="News Image"
+          class="w-full max-h-[350px] object-cover rounded-md shadow-sm"
         />
+      </div>
 
-        <p class="text-lg text-[#A3A3A3] leading-relaxed">
-          {{ hitSpecialStore.article?.mainArticle }}
-        </p>
-
-        <div class="flex flex-col md:flex-row gap-6 items-start min-w-0 w-full">
-          <img
-            :src="hitSpecialStore.headLineSubImage"
-            alt="Secondary Image"
-            class="w-full md:w-1/3 h-auto object-contain"
+      <div class="flex justify-between items-center text-sm text-[#ADADAD] pt-2">
+        <span class="font-medium">{{ article?.category }}</span>
+        <div class="flex gap-4">
+          <span
+            v-for="(icon, index) in icons"
+            :key="index"
+            :class="['text-xl', icon.name]"
+            class="hover:text-gray-900 cursor-pointer"
           />
-          <p class="text-lg text-[#A3A3A3] leading-relaxed w-full">
-            {{ hitSpecialStore.article?.sideArticle }}
-          </p>
-        </div>
-
-        <div>
-          <p class="text-lg text-[#A3A3A3] leading-relaxed">
-            {{ hitSpecialStore.article?.finalArticle }}
-          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { useRoute } from 'vue-router'
-import { onMounted } from 'vue'
-import { useHitSpecialStore } from '@/stores/HitSpecialStore'
-import DetailTopbar from '@/components/DetailTopbar.vue'
-import Breadcrumb from '@/components/Breadcrumb.vue'
-import { useSidebarStore } from '@/stores/SidebarStore'
-
-const sidebarStore = useSidebarStore()
-const route = useRoute()
-const hitSpecialStore = useHitSpecialStore()
-
-onMounted(() => {
-  hitSpecialStore.fetchArticleById(route.params.id)
-})
-</script>

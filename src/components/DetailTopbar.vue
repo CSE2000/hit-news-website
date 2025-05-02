@@ -9,13 +9,13 @@ const backIcon = { name: 'pi pi-arrow-left' }
 // Go to NewsFeed route
 const goToNewsFeed = () => {
   router.push({ name: 'newsfeed' })
+  console.log(goToNewsFeed)
 }
 </script>
 
 <template>
   <div class="lg:hidden px-2 pt-1 m-3">
     <div class="flex items-center justify-between">
-      <!-- Back Icon (go to NewsFeed) -->
       <span
         :class="backIcon.name"
         class="text-xl text-[#ADADAD] hover:text-gray-900 cursor-pointer"

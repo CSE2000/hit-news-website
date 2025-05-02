@@ -1,18 +1,29 @@
 <script setup>
 import { useSidebarStore } from '@/stores/SidebarStore'
+import { onMounted } from 'vue'
+
+import { useNewsStore } from '@/stores/NewsStore'
+
+const newsStore = useNewsStore()
 const sidebarStore = useSidebarStore()
 
-const handleClick = (label) => {
-  sidebarStore.setCategory(label)
+onMounted(() => {
+  sidebarStore.fetchCategories()
+  sidebarStore.logoImage()
+})
+
+const handleClick = (categoryName) => {
+  console.log('Clicked category:', categoryName)
+  sidebarStore.setCategory(categoryName)
+  newsStore.setArticlesByCategory(categoryName)
 }
 </script>
 
 <template>
   <nav class="block lg:hidden sticky top-0 z-20 bg-white shadow-sm">
-    <!-- Top Logo + WhatsApp Banner -->
     <div class="flex items-center justify-between px-4 w-full">
-      <div class="w-28 h-20 sm:w-34 sm:h-26 md:w-36 md:h-28 lg:w-40 lg:h-32">
-        <img :src="sidebarStore.logoUrl" alt="logo" class="w-full h-full object-contain" />
+      <div class="w-28 h-20 sm:w-28 sm:h-26 md:w-32 md:h-28 lg:w-40 lg:h-32">
+        <img :src="sidebarStore.logo" alt="logo" class="w-full h-full object-contain" />
       </div>
 
       <div
@@ -26,15 +37,17 @@ const handleClick = (label) => {
     </div>
 
     <!-- Category Buttons Scroll -->
-    <div class="flex whitespace-nowrap w-full px-4 space-x-8 overflow-x-auto pb-2">
+    <div class="flex whitespace-nowrap w-full px-4 space-x-4 overflow-x-auto pb-2">
       <button
         v-for="category in sidebarStore.categories"
-        :key="category.label"
-        @click="handleClick(category.label)"
-        class="flex items-center space-x-2 text-sm sm:text-base hover:bg-gray-200 rounded-md p-2 w-full"
+        :key="category._id"
+        @click="handleClick(category.name)"
+        class="flex-shrink-0 flex items-center gap-2 px-2 py-2 text-sm sm:text-base rounded-md hover:bg-gray-200 transition"
       >
-        <img :src="sidebarStore.getImageUrl(category.icon)" alt="category icon" class="w-5 h-5" />
-        <span>{{ category.label }}</span>
+        <div class="flex items-center gap-2">
+          <img :src="category.image" alt="category image" class="w-5 h-5" />
+          <span class="whitespace-nowrap">{{ category.name }}</span>
+        </div>
       </button>
     </div>
   </nav>
